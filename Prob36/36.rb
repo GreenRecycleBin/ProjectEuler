@@ -1,9 +1,10 @@
 #!/usr/bin/ruby -w
 
 def convertToBase(base, num)
-  num_s = []
+  num_digits = Math.log(num).div(Math.log(base)) + 1
+  num_s = Array.new(num_digits)
   
-  begin
+  (num_digits - 1).downto(0).each do |i|
     tmp = num % base
     
     if base >= 11
@@ -12,21 +13,20 @@ def convertToBase(base, num)
       tmp = tmp.to_s
     end
       
-    num_s << tmp
+    num_s[i] = tmp
     
     num /= base
-  end while num > 0
+  end
   
-  num_s.reverse!.inject { |s, i| s << i }
+  num_s
 end
 
 def isPalindrome(s)
   s == s.reverse
 end
 
-nums = (0...1_000_000).select do |n|
-  n_base2 = convertToBase(2, n)
-  isPalindrome(n.to_s) && isPalindrome(n_base2)
+nums = (1...1_000_000).select do |n|
+  isPalindrome(n.to_s) && isPalindrome(convertToBase(2, n))
 end
 
 puts nums.inject(:+)
