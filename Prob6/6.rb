@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 
-sumOfSquares, squareOfSum = 0, 0
-101.times { |i| sumOfSquares += i ** 2; squareOfSum += i }
-squareOfSum **= 2
-puts squareOfSum - sumOfSquares
+sum_of_squares = (1..100).inject { |sum, n| sum + n ** 2 }
+square_of_sums = (1..100).inject { |sum, n| sum + n } ** 2
+
+puts square_of_sums - sum_of_squares
