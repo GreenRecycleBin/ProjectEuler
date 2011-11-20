@@ -1,6 +1,17 @@
 #!/usr/bin/ruby -w
 
-triangle = "75
+triangle = DATA.map { |row| row.split.map(&:to_i) }.reverse
+
+result = triangle.inject do |curr, row|
+  (0...row.size).map do |col|
+    row[col] + curr[col, 2].max
+  end
+end
+
+puts result    
+
+__END__
+75
 95 64
 17 47 82
 18 35 87 10
@@ -14,18 +25,4 @@ triangle = "75
 70 11 33 28 77 73 17 78 39 68 17 57
 91 71 52 38 17 14 91 43 58 50 27 29 48
 63 66 04 68 89 53 67 30 73 16 69 87 40 31
-04 62 98 27 23 09 70 98 73 93 38 53 60 04 23"
-
-triangle = triangle.split(/\n/).map! { |row| row.split(/\s+/).map! { |x| x.to_i } }
-
-(triangle.size - 2).downto(0).each do |row|
-  (0...triangle[row].size).each do |col|
-    max = triangle[row + 1][col] > triangle[row + 1][col + 1] ?
-          triangle[row + 1][col] :
-          triangle[row + 1][col + 1]
-
-    triangle[row][col] += max
-  end
-end
-
-p triangle[0][0]
+04 62 98 27 23 09 70 98 73 93 38 53 60 04 23
